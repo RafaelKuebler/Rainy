@@ -2,6 +2,7 @@
 
 import pyowm
 
+
 owm = pyowm.OWM('6a5d298debe6ed67536daf792df2adb6') # API key for OpenWeatherMap
 
 # Have a pro subscription? Then use:

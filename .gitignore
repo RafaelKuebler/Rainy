@@ -1,2 +1,5 @@
 # .idea files
 .idea
+
+# OpenWeatherMap key file
+OWM.txt
