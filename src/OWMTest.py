@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
-import datetime
 import os
-
+import datetime
 from owm.owmfetcher import OWMFetcher
-# from tts.tts import TTSConverter
+from tts.tts import TTSConverter
 
 
 def print_weather_data(observation):
@@ -26,5 +25,8 @@ owm_fetcher = OWMFetcher(key_path)
 weather = owm_fetcher.get_current_weather()
 print_weather_data(weather)
 
-# tts_converter = TTSConverter()
-# tts_converter.say(weather.get_detailed_status())
+tts_converter = TTSConverter()
+tts_converter.say(weather.get_detailed_status())
+tts_converter.say(weather.get_detailed_status())
+
+print("\nFinished happily! :)")

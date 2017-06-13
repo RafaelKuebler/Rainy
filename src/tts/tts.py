@@ -1,6 +1,8 @@
+import os
+import uuid
+import pyglet
 from gtts import gTTS
-import urllib3
-urllib3.disable_warnings()
+from time import sleep
 
 '''
 Interesting language codes:
@@ -18,7 +20,7 @@ class TTSConverter:
         slow (bool): whether the speech should be slower than default
     """
 
-    def __init__(self, language='en', slow=True):
+    def __init__(self, language='en', slow=False):
         """Save relevant data for converter
 
         Args:
@@ -28,8 +30,26 @@ class TTSConverter:
         self.language = language
         self.slow = slow
 
-    def say(self, text):
-        speech = gTTS(text=text, lang=self.language, slow=self.slow)
-        speech.save("rainy.mp3")
+        current_dir = os.path.dirname(__file__)
+        self._audio_dir = os.path.join(current_dir, "../audio/")
+        if not os.path.exists(self._audio_dir):
+            os.makedirs(self._audio_dir)
 
-        # play what is saved in "rainy.mp3"
+    def say(self, text):
+        audio_file_name = "{}.mp3".format(uuid.uuid4())
+        audio_path = os.path.join(self._audio_dir, audio_file_name)
+
+        speech = gTTS(text=text, lang=self.language, slow=self.slow)
+        speech.save(audio_path)
+        print("Audio \'{}\' saved to: {}".format(text, audio_file_name))
+
+        music = pyglet.media.load(audio_path, streaming=False)
+        music.play()
+        print("Playing audio file: {}".format(audio_file_name))
+
+        sleep(music.duration)  # prevent from killing
+        print("Finished playing: {}".format(audio_file_name))
+
+        os.remove(audio_path)
+        print("Deleted: {}".format(audio_file_name))
+        print("-------------------------------------------------------------")
