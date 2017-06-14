@@ -1,5 +1,5 @@
-from tkinter import *
-from tkinter import ttk
+from Tkinter import *
+import ttk
 
 
 def calculate(*args):
