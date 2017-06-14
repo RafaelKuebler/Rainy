@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import ttk
 import datetime
@@ -10,7 +12,7 @@ from owm.owmfetcher import OWMFetcher
 
 debug_current_line = 0
 
-'''-----------------Event functions-----------------'''
+
 def write_line_in_debug(text):
     global debug_current_line
     debug_output.insert(END, text + "\n")
@@ -32,10 +34,11 @@ def print_weather_data(observation):
     debug_output.config(state=DISABLED)
 
 
+'''-----------------Event functions-----------------'''
 def perform_weather_check():
-    tts_converter = TTSConverter("../../audio/")
+    tts_converter = TTSConverter("../audio/")
 
-    relative_path_to_key = "../../OWM.txt"
+    relative_path_to_key = "../OWM.txt"
     current_dir = os.path.dirname(__file__)
     key_path = os.path.join(current_dir, relative_path_to_key)
 
@@ -45,12 +48,11 @@ def perform_weather_check():
 
     threading.Thread(target=tts_converter.say, args=[weather.get_detailed_status()]).start()
 
-    root.after(2000, perform_weather_check)
 
 '''-----------------Main window-----------------'''
 root = Tk()
 root.title("Rainy")
-root.wm_iconbitmap("umbrella.ico")
+root.wm_iconbitmap("../resources/umbrella.ico")
 root.resizable(width=False, height=False)
 
 '''-----------------Frames-----------------'''
@@ -70,7 +72,7 @@ right_frame.grid(column=2, row=0, sticky=(N, W, E, S))
 
 '''-----------------Widgets-----------------'''
 '''Image'''
-image = PhotoImage(file="rain.gif")
+image = PhotoImage(file="../resources/rain.gif")
 # ttk.Label(right_frame, image=image).grid(column=0, row=0, sticky=(N, W, E, S))
 ttk.Label(left_frame, image=image).pack(expand=YES, fill=BOTH)
 
