@@ -20,7 +20,7 @@ class TTSConverter:
         slow (bool): whether the speech should be slower than default
     """
 
-    def __init__(self, language='en', slow=False):
+    def __init__(self, audio_folder, language='en', slow=False):
         """Save relevant data for converter
 
         Args:
@@ -31,7 +31,7 @@ class TTSConverter:
         self.slow = slow
 
         current_dir = os.path.dirname(__file__)
-        self._audio_dir = os.path.join(current_dir, "../audio/")
+        self._audio_dir = os.path.join(current_dir, audio_folder)
         if not os.path.exists(self._audio_dir):
             os.makedirs(self._audio_dir)
 
@@ -41,15 +41,14 @@ class TTSConverter:
 
         speech = gTTS(text=text, lang=self.language, slow=self.slow)
         speech.save(audio_path)
-        print("Audio \'{}\' saved to: {}".format(text, audio_file_name))
+        #print("Audio \'{}\' saved to: {}".format(text, audio_file_name))
 
         music = pyglet.media.load(audio_path, streaming=False)
         music.play()
-        print("Playing audio file: {}".format(audio_file_name))
+        #print("Playing audio file: {}".format(audio_file_name))
 
         sleep(music.duration)  # prevent from killing
-        print("Finished playing: {}".format(audio_file_name))
+        #print("Finished playing: {}".format(audio_file_name))
 
         os.remove(audio_path)
-        print("Deleted: {}".format(audio_file_name))
-        print("-------------------------------------------------------------")
+        #print("Deleted: {}".format(audio_file_name))

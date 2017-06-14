@@ -14,22 +14,11 @@ class OWMFetcher:
     _default_lon = 8.42
 
     def __init__(self, path_to_owm_key="/OWM.txt", language='en'):
-        """Initialize OpenWeatherMap objects using the API key.
-
-        Args:
-            path_to_owm_key (string): Path to the .txt file containing the API key.
-        """
         self._key = self.__read_owm_key_from(path_to_owm_key)
         self._owm = pyowm.OWM(API_key=self._key, language=language)
-        print(type(self._owm))
 
     @staticmethod
     def __read_owm_key_from(path_to_owm_key):
-        """Read the OpenWeatherMap key from the specified path.
-
-        Attributes:
-            path_to_owm_key (string): Path to the .txt file containing the API key.
-        """
         key_file = open(path_to_owm_key, 'r')
         key = key_file.readline()
         key_file.close()

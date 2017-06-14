@@ -17,7 +17,7 @@ def print_weather_data(observation):
     print("   Detailed status: {}".format(observation.get_detailed_status()))
     print("-------------------------------------------------------------\n")
 
-tts_converter = TTSConverter()
+tts_converter = TTSConverter("../audio/")
 
 relative_path_to_key = "../OWM.txt"
 current_dir = os.path.dirname(__file__)
