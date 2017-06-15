@@ -39,16 +39,16 @@ class TTSConverter:
         audio_file_name = "{}.mp3".format(uuid.uuid4())
         audio_path = os.path.join(self._audio_dir, audio_file_name)
 
-        speech = gTTS(text=text, lang=self.language, slow=self.slow)
+        speech = gTTS(text=str(text), lang=self.language, slow=self.slow)
         speech.save(audio_path)
-        #print("Audio \'{}\' saved to: {}".format(text, audio_file_name))
+        # print("Audio \'{}\' saved to: {}".format(text, audio_file_name))
 
         music = pyglet.media.load(audio_path, streaming=False)
         music.play()
-        #print("Playing audio file: {}".format(audio_file_name))
+        # print("Playing audio file: {}".format(audio_file_name))
 
         sleep(music.duration)  # prevent from killing
-        #print("Finished playing: {}".format(audio_file_name))
+        # print("Finished playing: {}".format(audio_file_name))
 
         os.remove(audio_path)
-        #print("Deleted: {}".format(audio_file_name))
+        # print("Deleted: {}".format(audio_file_name))
