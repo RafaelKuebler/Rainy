@@ -84,7 +84,7 @@ root.resizable(width=False, height=False)
 
 
 '''-----------------Frames-----------------'''
-mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe = ttk.Frame(root)
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
@@ -96,7 +96,7 @@ center_frame = ttk.Frame(mainframe)
 center_frame.grid(column=1, row=0, sticky=(N, W, E, S))
 
 right_frame = ttk.Frame(mainframe)
-right_frame.grid(column=2, row=0, sticky=(N, W, E, S))
+right_frame.grid(column=2, row=0, sticky=(N, W, E, S), padx=10, pady=20)
 
 
 '''-----------------Widgets-----------------'''
