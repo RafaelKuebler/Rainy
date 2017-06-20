@@ -49,6 +49,7 @@ def print_weather_data(observation):
 def read_last_evaluation():
     if last_evaluation:
         to_say = "Recommended: {}".format(last_evaluation)
+        write_line_in_debug("Reading last evaluation...")
         threading.Thread(target=tts_converter.say, args=[to_say]).start()
     else:
         write_line_in_debug("No weather data: leave first!")
@@ -78,11 +79,14 @@ def perform_weather_check():
     last_evaluation = owm_interpreter.interpret_weather(last_weather)
     write_line_in_debug(last_evaluation)
 
+
 '''-----------------Main window-----------------'''
 root = Tk()
 root.title("Rainy")
 root.wm_iconbitmap("../resources/umbrella.ico")
 root.resizable(width=False, height=False)
+
+image = PhotoImage(file="../resources/rain.gif")
 
 
 '''-----------------Frames-----------------'''
@@ -91,30 +95,37 @@ mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
 
-left_frame = ttk.Frame(mainframe)
+left_frame = ttk.Frame(mainframe, width=image.width(), height=image.height())
+left_frame.grid_propagate(False)
 left_frame.grid(column=0, row=0, sticky=(N, W, E, S))
+left_frame.columnconfigure(0, weight=1)
+left_frame.rowconfigure(0, weight=1)
 
-center_frame = ttk.Frame(mainframe)
+center_frame = ttk.Frame(mainframe, width=700, height=image.height())
+center_frame.grid_propagate(False)
 center_frame.grid(column=1, row=0, sticky=(N, W, E, S))
+center_frame.columnconfigure(0, weight=1)
+center_frame.rowconfigure(0, weight=1)
 
-right_frame = ttk.Frame(mainframe)
+right_frame = ttk.Frame(mainframe, height=image.height())
 right_frame.grid(column=2, row=0, sticky=(N, W, E, S), padx=10, pady=20)
+right_frame.columnconfigure(0, weight=1)
+right_frame.rowconfigure(7, weight=1)
 
 
 '''-----------------Widgets-----------------'''
 '''Image'''
-image = PhotoImage(file="../resources/rain.gif")
-# ttk.Label(right_frame, image=image).grid(column=0, row=0, sticky=(N, W, E, S))
-ttk.Label(left_frame, image=image).pack(expand=YES, fill=BOTH)
+ttk.Label(left_frame, image=image).grid(column=0, row=0, sticky=(N, W, E, S))
+
 
 '''Debug window'''
 scrollbar = Scrollbar(center_frame)
 scrollbar.grid(column=1, row=0, sticky=(N, W, E, S))
-# scrollbar.pack(side=RIGHT, fill=Y)
-log = Text(center_frame, yscrollcommand=scrollbar.set, width=100, height=15)
+log = Text(center_frame, yscrollcommand=scrollbar.set)
 log.grid(column=0, row=0, sticky=(N, W, E, S))
 log.config(state=DISABLED)
 scrollbar.config(command=log.yview)
+
 
 '''Form'''
 location = StringVar()
@@ -132,6 +143,8 @@ ttk.Button(right_frame, text="Clear log", command=clear_log).grid(column=0, row=
 
 
 '''-----------------Events-----------------'''
+root.after(0, perform_weather_check)
+root.after(6000, read_last_evaluation)
 hours = 3
 root.after(1000*60*60*hours, perform_weather_check)
 
