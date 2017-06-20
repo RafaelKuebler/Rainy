@@ -22,11 +22,13 @@ def init():
     global owm_interpreter
     global tts_converter
 
-    tts_converter = TTSConverter("../audio/")
-
     relative_path_to_key = "../OWM.txt"
+    relative_path_to_audio = "../audio/"
     current_dir = os.path.dirname(__file__)
+    audio_path = os.path.join(current_dir, relative_path_to_audio)
     key_path = os.path.join(current_dir, relative_path_to_key)
+
+    tts_converter = TTSConverter(audio_path)
     owm_fetcher = OWMFetcher(key_path)
 
     owm_interpreter = OWMInterpreter(None)

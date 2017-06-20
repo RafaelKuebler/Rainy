@@ -30,8 +30,7 @@ class TTSConverter:
         self.language = language
         self.slow = slow
 
-        current_dir = os.path.dirname(__file__)
-        self._audio_dir = os.path.join(current_dir, audio_folder)
+        self._audio_dir = audio_folder
         if not os.path.exists(self._audio_dir):
             os.makedirs(self._audio_dir)
 
